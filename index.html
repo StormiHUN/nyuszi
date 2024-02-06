@@ -59,6 +59,7 @@
     }
 
     function reset(){
+        t = []
         for(let i = 0; i < 9; i++) t.push([])
         repa = 0
         setRandom()
@@ -78,7 +79,7 @@
         }
         for(let y = 0; y < 9; y++){
             for(let x = 0; x < 12; x++){
-                if(t[y][x] != "nyuszi.png" && t[y][x] != "kutya.png") t[y][x] = "ures.png"
+                if(t[y][x] != "nyuszi.png" && t[y][x] != "kutya.png") t[y][x] = "repa.png"
             }
         }
     }
@@ -87,10 +88,48 @@
         let html = ""
         for(let y = 0; y < 9; y++){
             for(let x = 0; x < 12; x++){
-                html += "<img src='" + t[y][x] + "'>"
+                if(t[y][x] == "repa.png" || t[y][x] == "ures.png"){
+                    html += "<img src='" + t[y][x] + "' onclick='katt("+y+","+x+",\"" + t[y][x] + "\")'>"
+                }else html += "<img src='" + t[y][x] + "'>"
             }
         }
+        document.getElementById("count").innerHTML = repa + " darab"
         document.getElementById("cumtainer").innerHTML = html
+    }
+
+    function katt(y,x,type){
+        if(type == "ures.png"){
+            repa--
+            t[y][x] = "repa.png"
+            draw()
+        }else{
+            for(let dy = -1 ; dy < 2; dy++){
+                try {
+                    if(t[y+dy][x] == "nyuszi.png"){
+                        repa++;
+                        t[y+dy][x] = "ures.png"
+                        t[y][x] = "nyuszi.png"
+                        draw()
+                        return
+                    }
+                } catch (error) {
+                    
+                }
+            }
+            for(let dy = -1 ; dy < 2; dy++){
+                try {
+                    if(t[y][x+dy] == "nyuszi.png"){
+                        repa++;
+                        t[y][x+dy] = "ures.png"
+                        t[y][x] = "nyuszi.png"
+                        draw()
+                        return
+                    }
+                } catch (error) {
+                    
+                }
+            }
+        }
     }
 
 </script>
@@ -101,7 +140,7 @@
 
     <div id="under">
         <img src="repa.png"><span id="count">0 darab</span>
-        <img id="ujra" src="ujra.png">
+        <img id="ujra" src="ujra.png" onclick="reset()">
     </div>
 
 </body>
