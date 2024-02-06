@@ -17,7 +17,7 @@
         background-color: white;
         border: 1px solid black;
         width: 864px;
-        height: 648px;
+        height: 678px;
         padding: 10px;
 
     }
@@ -51,9 +51,50 @@
 </style>
 <script>
 
+    let t = []
+    let repa = 0
+
+    function start(){
+        reset()
+    }
+
+    function reset(){
+        for(let i = 0; i < 9; i++) t.push([])
+        repa = 0
+        setRandom()
+        draw()
+    }
+
+    function setRandom() {
+        t[Math.floor(Math.random()*9)][Math.floor(Math.random()*12)] = "nyuszi.png"
+        dogs = 0
+        while (dogs != 20){
+            let ry = (Math.floor(Math.random()*9))
+            let rx = (Math.floor(Math.random()*12))
+            if(t[ry][rx] != "nyuszi.png" && t[ry][rx] != "kutya.png"){
+                t[ry][rx] = "kutya.png"
+                dogs++
+            }
+        }
+        for(let y = 0; y < 9; y++){
+            for(let x = 0; x < 12; x++){
+                if(t[y][x] != "nyuszi.png" && t[y][x] != "kutya.png") t[y][x] = "ures.png"
+            }
+        }
+    }
+
+    function draw(){
+        let html = ""
+        for(let y = 0; y < 9; y++){
+            for(let x = 0; x < 12; x++){
+                html += "<img src='" + t[y][x] + "'>"
+            }
+        }
+        document.getElementById("cumtainer").innerHTML = html
+    }
+
 </script>
-<body>
-    
+<body onload="start()">
     <div id="cumtainer">
 
     </div>
